@@ -6,7 +6,7 @@
 
 ### Flow: Environment & Setup
 
-* [ ] Add Redis & SMTP sink (MailHog) to docker-compose.
+* [x] Add Redis & SMTP sink (MailHog) to docker-compose.
 * [ ] Centralize app config (issuer URL, cookie flags, TTLs).
 * [ ] Generate signing keypair (RS256/ES256), expose JWKS + discovery doc.
 
