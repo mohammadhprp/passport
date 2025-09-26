@@ -2,24 +2,13 @@ package services
 
 import (
 	"context"
-	"crypto/rand"
-	"encoding/base64"
 	"errors"
-	"fmt"
 
 	"github.com/google/uuid"
-	"golang.org/x/crypto/argon2"
 
 	"github.com/mohammadhprp/passport/internal/models"
 	"github.com/mohammadhprp/passport/internal/repositories"
-)
-
-const (
-	argonTime    uint32 = 3
-	argonMemory  uint32 = 64 * 1024
-	argonThreads uint8  = 2
-	argonKeyLen  uint32 = 32
-	argonSaltLen        = 16
+	"github.com/mohammadhprp/passport/internal/utils"
 )
 
 var (
@@ -120,18 +109,7 @@ func isValidStatus(status models.UserStatus) bool {
 }
 
 func hashPassword(password string) (string, error) {
-	salt := make([]byte, argonSaltLen)
-	if _, err := rand.Read(salt); err != nil {
-		return "", err
-	}
-
-	hash := argon2.IDKey([]byte(password), salt, argonTime, argonMemory, argonThreads, argonKeyLen)
-
-	b64Salt := base64.RawStdEncoding.EncodeToString(salt)
-	b64Hash := base64.RawStdEncoding.EncodeToString(hash)
-
-	encoded := fmt.Sprintf("argon2id$v=19$m=%d,t=%d,p=%d$%s$%s", argonMemory, argonTime, argonThreads, b64Salt, b64Hash)
-	return encoded, nil
+	return utils.HashSensitiveValue(password)
 }
 
 func cloneStringSlice(input []string) []string {
