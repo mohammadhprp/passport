@@ -1,0 +1,22 @@
+
+vendor/
+*.test
+*.log
+tmp/
+temp/
+main # If you build the executable inside the container
+
+.git/
+.gitignore
+.dockerignore
+.idea/
+.vscode/
+
+
+build/
+dist/
+
+documents/
+*.md
+*.txt
+*.json
