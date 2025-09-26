@@ -8,6 +8,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/mohammadhprp/passport/internal/config"
+	"github.com/mohammadhprp/passport/internal/models"
 	"github.com/mohammadhprp/passport/internal/routers"
 )
 
@@ -19,6 +20,10 @@ func main() {
 	db, err := config.NewPostgresConnection(cfg)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
+	}
+
+	if err := models.AutoMigrate(db); err != nil {
+		log.Fatalf("failed to run migrations: %v", err)
 	}
 
 	router := routers.NewRouter(db)
